@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Core.Domain.Enums;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -12,10 +13,16 @@ namespace Core.Domain.Entities
         public string Nom { get; set; }= string.Empty;
         public string Email { get; set; } = string.Empty;
         public string MotDePasse { get; set; } = string.Empty;
+        public RoleUtilisateur Role {  get; set; }
+        //Relation avec `CompteRendus` (1 étudiant → plusieurs comptes-rendus)
+        public ICollection<CompteRendu> CompteRendus { get; set; } = new List<CompteRendu>();
 
-        // Role(Etudiant, Tuteur, Admin)
-        public RoleUtulisateur Role {  get; set; }
-        //Relation avec les CRA (Un étudiant peut avoir plusieurs CRA)
-        public List<CompteRendu> CompteRendus { get; set; } = new();
+        //Relation avec `FicheEtudiant` (1 étudiant → 1 seule fiche)
+        public FicheEtudiant? FicheEtudiant { get; set; }
+
+        //Relation avec `EvaluationTuteur` (Un tuteur peut faire plusieurs évaluations)
+        public ICollection<EvaluationTuteur> EvaluationsTuteurs { get; set; } = new List<EvaluationTuteur>();
+        public ICollection<EvaluationTuteur> EvaluationsEnTantQueTuteur { get; set; } = new List<EvaluationTuteur>();
+
     }
 }

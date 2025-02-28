@@ -13,4 +13,4 @@ namespace Core.Domain.Enums
         Vert
     }
 }
-}
+

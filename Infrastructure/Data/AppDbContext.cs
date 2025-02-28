@@ -16,30 +16,38 @@ namespace Infrastructure.Data
         {
             base.OnModelCreating(modelBuilder);
 
-            // Relation Utilisateur → CompteRendus
+            // 🔹 Relation Utilisateur - CompteRendu (Un étudiant peut avoir plusieurs comptes-rendus)
             modelBuilder.Entity<CompteRendu>()
                 .HasOne(c => c.Etudiant)
                 .WithMany(u => u.CompteRendus)
-                .HasForeignKey(c => c.EtudiantId);
+                .HasForeignKey(c => c.EtudiantId)
+                .OnDelete(DeleteBehavior.Restrict); // 
 
-            // Relation EvaluationTuteur → CompteRendu
+            // 🔹 Relation CompteRendu - EvaluationTuteur (Un compte-rendu peut avoir plusieurs évaluations)
             modelBuilder.Entity<EvaluationTuteur>()
                 .HasOne(e => e.CompteRendu)
-                .WithOne()
-                .HasForeignKey<EvaluationTuteur>(e => e.CompteRenduId);
+                .WithMany(c => c.EvaluationsTuteurs)
+                .HasForeignKey(e => e.CompteRenduId)
+                .OnDelete(DeleteBehavior.Restrict); // 
 
-            // Relation EvaluationTuteur → Tuteur
+            // 🔹 Correction : Relation EvaluationTuteur - Tuteur (Un tuteur peut avoir plusieurs évaluations)
             modelBuilder.Entity<EvaluationTuteur>()
                 .HasOne(e => e.Tuteur)
-                .WithMany()
-                .HasForeignKey(e => e.TuteurId);
+                .WithMany(u => u.EvaluationsEnTantQueTuteur) // Relation bien définie !
+                .HasForeignKey(e => e.TuteurId)
+                .OnDelete(DeleteBehavior.Restrict); // 
 
-            // Relation Utilisateur → FicheEtudiant (1:1)
+            // 🔹 Relation Utilisateur - FicheEtudiant (Un étudiant a une seule fiche)
             modelBuilder.Entity<FicheEtudiant>()
                 .HasOne(f => f.Etudiant)
-                .WithOne()
-                .HasForeignKey<FicheEtudiant>(f => f.EtudiantId);
+                .WithOne(u => u.FicheEtudiant)
+                .HasForeignKey<FicheEtudiant>(f => f.EtudiantId)
+                .OnDelete(DeleteBehavior.Restrict); 
         }
+
+
+
+
     }
 }
 

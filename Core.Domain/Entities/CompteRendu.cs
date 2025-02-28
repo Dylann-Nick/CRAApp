@@ -22,5 +22,8 @@ namespace Core.Domain.Entities
         //Retour du tuteur (optionnel)
         public string? RetourTuteur {  get; set; }
         public DateTime DateCreation { get; set; } = DateTime.UtcNow;
+
+        //Ajout de la collection d'évaluations
+        public ICollection<EvaluationTuteur> EvaluationsTuteurs { get; set; } = new List<EvaluationTuteur>();
     }
 }

@@ -1,0 +1,315 @@
+{
+  "openapi": "3.0.1",
+  "info": {
+    "title": "Compte rendu d'activité Aoi",
+    "description": "API pour la gestion des Comptes Rendus d'Activité en formation/entreprise",
+    "contact": {
+      "name": "Support",
+      "url": "https://cra.com",
+      "email": "support@cra.com"
+    },
+    "version": "v1"
+  },
+  "paths": {
+    "/api/CompteRendu": {
+      "get": {
+        "tags": [
+          "CompteRendu"
+        ],
+        "responses": {
+          "200": {
+            "description": "OK"
+          }
+        }
+      },
+      "post": {
+        "tags": [
+          "CompteRendu"
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/CompteRendu"
+              }
+            },
+            "text/json": {
+              "schema": {
+                "$ref": "#/components/schemas/CompteRendu"
+              }
+            },
+            "application/*+json": {
+              "schema": {
+                "$ref": "#/components/schemas/CompteRendu"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "OK"
+          }
+        }
+      }
+    },
+    "/api/CompteRendu/{id}": {
+      "get": {
+        "tags": [
+          "CompteRendu"
+        ],
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "format": "uuid"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK"
+          }
+        }
+      }
+    },
+    "/api/Utilisateur/{id}": {
+      "get": {
+        "tags": [
+          "Utilisateur"
+        ],
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "format": "uuid"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK"
+          }
+        }
+      }
+    },
+    "/api/Utilisateur": {
+      "post": {
+        "tags": [
+          "Utilisateur"
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/Utilisateur"
+              }
+            },
+            "text/json": {
+              "schema": {
+                "$ref": "#/components/schemas/Utilisateur"
+              }
+            },
+            "application/*+json": {
+              "schema": {
+                "$ref": "#/components/schemas/Utilisateur"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "OK"
+          }
+        }
+      }
+    }
+  },
+  "components": {
+    "schemas": {
+      "CompteRendu": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "string",
+            "format": "uuid"
+          },
+          "etudiantId": {
+            "type": "string",
+            "format": "uuid"
+          },
+          "etudiant": {
+            "$ref": "#/components/schemas/Utilisateur"
+          },
+          "mission": {
+            "type": "string",
+            "nullable": true
+          },
+          "etapesRealisation": {
+            "type": "string",
+            "nullable": true
+          },
+          "travailEntreprise": {
+            "type": "boolean"
+          },
+          "difficultes": {
+            "type": "string",
+            "nullable": true
+          },
+          "competanceMisesEnOeuvre": {
+            "type": "string",
+            "nullable": true
+          },
+          "retourTuteur": {
+            "type": "string",
+            "nullable": true
+          },
+          "dateCreation": {
+            "type": "string",
+            "format": "date-time"
+          },
+          "evaluationsTuteurs": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/EvaluationTuteur"
+            },
+            "nullable": true
+          }
+        },
+        "additionalProperties": false
+      },
+      "EvaluationTuteur": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "string",
+            "format": "uuid"
+          },
+          "compteRenduId": {
+            "type": "string",
+            "format": "uuid"
+          },
+          "compteRendu": {
+            "$ref": "#/components/schemas/CompteRendu"
+          },
+          "tuteurId": {
+            "type": "string",
+            "format": "uuid"
+          },
+          "tuteur": {
+            "$ref": "#/components/schemas/Utilisateur"
+          },
+          "commentaire": {
+            "type": "string",
+            "nullable": true
+          },
+          "note": {
+            "$ref": "#/components/schemas/Note"
+          },
+          "dateEvaluation": {
+            "type": "string",
+            "format": "date-time"
+          }
+        },
+        "additionalProperties": false
+      },
+      "FicheEtudiant": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "string",
+            "format": "uuid"
+          },
+          "etudiantId": {
+            "type": "string",
+            "format": "uuid"
+          },
+          "etudiant": {
+            "$ref": "#/components/schemas/Utilisateur"
+          },
+          "formation": {
+            "type": "string",
+            "nullable": true
+          },
+          "promotion": {
+            "type": "string",
+            "nullable": true
+          }
+        },
+        "additionalProperties": false
+      },
+      "Note": {
+        "enum": [
+          0,
+          1,
+          2
+        ],
+        "type": "integer",
+        "format": "int32"
+      },
+      "RoleUtilisateur": {
+        "enum": [
+          0,
+          1,
+          2
+        ],
+        "type": "integer",
+        "format": "int32"
+      },
+      "Utilisateur": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "string",
+            "format": "uuid"
+          },
+          "nom": {
+            "type": "string",
+            "nullable": true
+          },
+          "email": {
+            "type": "string",
+            "nullable": true
+          },
+          "motDePasse": {
+            "type": "string",
+            "nullable": true
+          },
+          "role": {
+            "$ref": "#/components/schemas/RoleUtilisateur"
+          },
+          "compteRendus": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/CompteRendu"
+            },
+            "nullable": true
+          },
+          "ficheEtudiant": {
+            "$ref": "#/components/schemas/FicheEtudiant"
+          },
+          "evaluationsTuteurs": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/EvaluationTuteur"
+            },
+            "nullable": true
+          },
+          "evaluationsEnTantQueTuteur": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/EvaluationTuteur"
+            },
+            "nullable": true
+          }
+        },
+        "additionalProperties": false
+      }
+    }
+  }
+}
