@@ -3,3 +3,5 @@
 ################################################################################
 
 /.vs/CRAApp
+/Core.Domain/bin/Debug/net9.0
+/WebApi/obj/Debug/net9.0/staticwebassets
